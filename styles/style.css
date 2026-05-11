@@ -24,3 +24,8 @@ canvas {
 button {
   display: block;
 }
+
+canvas {
+  border: 2px solid black;
+}
+//so i can see the canvas better, not part of the game design
