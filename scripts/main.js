@@ -1,4 +1,7 @@
+// get the canvas element from HTML
 const canvas = document.getElementById("myCanvas");
+
+// get the drawing tool
 const ctx = canvas.getContext("2d");
 
 const pipeWidth = 50;
@@ -7,6 +10,15 @@ const gap = 150; // Gap between pipes
 let bottomPipeHeight = canvas.height - gap - topPipeHeight; // Bottom pipe adjusts to fit
 const pipeSpeed = 3;
 let x = canvas.width;
+
+
+// BIRD START POSITION
+let birdX = 100;
+let birdY = 275;
+// bird falling speed
+let velocity = 0;
+// gravity strength
+let gravity = 0.5;
 
 // Draws pipes
 function drawPipe() {
@@ -33,6 +45,17 @@ function drawPipe() {
     }
 }
 
+// draw bird
+function drawBird() {
+
+  // bird color
+  ctx.fillStyle = "yellow";
+
+  // draw bird rectangle
+  ctx.fillRect(birdX, birdY, 40, 40);
+
+}
+
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawPipe();
@@ -51,38 +74,6 @@ runButton.addEventListener("click", () => {
     startGame();
     runButton.disabled = true;
 });
-=======
-// get the canvas element from HTML
-const canvas = document.getElementById("myCanvas");
-
-// get the drawing tool
-const ctx = canvas.getContext("2d");
-
-
-// BIRD START POSITION
-let birdX = 100;
-let birdY = 275;
-
-
-// bird falling speed
-let velocity = 0;
-
-
-// gravity strength
-let gravity = 0.5;
-
-
-// draw bird
-function drawBird() {
-
-  // bird color
-  ctx.fillStyle = "yellow";
-
-  // draw bird rectangle
-  ctx.fillRect(birdX, birdY, 40, 40);
-
-}
-
 
 // movement
 function update() {
@@ -92,9 +83,7 @@ function update() {
 
   // move bird downward
   birdY += velocity;
-
 }
-
 
 // GAME LOOP
 function gameLoop() {
@@ -112,7 +101,6 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 
 }
-
 
 // start the game loop
 gameLoop();
