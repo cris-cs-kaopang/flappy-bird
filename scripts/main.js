@@ -6,7 +6,7 @@ const ctx = canvas.getContext("2d");
 
 const pipeWidth = 50;
 let topPipeHeight = Math.random() * 200 + 100; // Top pipe: 100-300
-const gap = 150; // Gap between pipes
+const gap = 180; // Gap between pipes
 let bottomPipeHeight = canvas.height - gap - topPipeHeight; // Bottom pipe adjusts to fit
 const pipeSpeed = 3;
 let x = canvas.width;
@@ -55,26 +55,6 @@ function drawBird() {
   ctx.fillRect(birdX, birdY, 40, 40);
 
 }
-
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawPipe();
-
-    requestAnimationFrame(draw);
-}
-
-// Starts the game
-function startGame() {
-    draw();
-}
-
-// Button to start the game
-const runButton = document.getElementById("runButton");
-runButton.addEventListener("click", () => {
-    startGame();
-    runButton.disabled = true;
-});
-
 // movement
 function update() {
 
@@ -91,10 +71,13 @@ function gameLoop() {
   // clear old frame
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // update movement
+  // update bird movement
   update();
 
-  // draw bird again
+  // draw moving pipes
+  drawPipe();
+
+  // draw bird
   drawBird();
 
   // repeat forever
@@ -102,5 +85,34 @@ function gameLoop() {
 
 }
 
-// start the game loop
-gameLoop();
+
+// spacebar jump strength
+let lift = -8;
+
+
+// listen for keyboard input
+document.addEventListener("keydown", function(event) {
+
+  // check if spacebar is pressed
+  if (event.code === "Space") {
+
+    // make bird jump upward
+    velocity = lift;
+
+  }
+
+});
+
+
+// start button
+const runButton = document.getElementById("runButton");
+
+runButton.addEventListener("click", () => {
+
+  // start the game
+  gameLoop();
+
+  // disable button after clicking
+  runButton.disabled = true;
+
+});
