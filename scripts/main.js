@@ -20,6 +20,7 @@ let velocity = 0;
 // gravity strength
 let gravity = 0.5;
 
+
 // Draws pipes
 function drawPipe() {
     // Top pipe
@@ -80,6 +81,12 @@ function gameLoop() {
   // draw bird
   drawBird();
 
+  // Check for collisions
+  if (collisionDetection()) {
+      alert("Game Over!");
+      return; // Stop the game loop
+  }
+
   // repeat forever
   requestAnimationFrame(gameLoop);
 
@@ -102,6 +109,30 @@ document.addEventListener("keydown", function(event) {
   }
 
 });
+
+// Collison Detection
+function collisionDetection(pipe, bird) {
+    return(
+        // Top Pipe
+        birdX < x + pipeWidth &&
+        birdX + 40 > x &&
+        birdY < 0 + topPipeHeight &&
+        birdY + 40 > 0
+
+        // Bottom Pipe
+        || birdX < x + pipeWidth &&
+           birdX + 40 > x &&
+           birdY < canvas.height &&
+           birdY + 40 > canvas.height - bottomPipeHeight
+
+        // Ground Collision
+        || birdY + 40 > canvas.height
+
+        // Ceiling Collision
+        || birdY < 0
+      );
+}
+
 
 
 // start button
