@@ -43,6 +43,9 @@ function drawPipe() {
         x = canvas.width;
         topPipeHeight = Math.random() * 200 + 100; // Randomize top pipe
         bottomPipeHeight = canvas.height - gap - topPipeHeight; // Adjust bottom
+
+          // Reset score tracking for new pipe
+          passedPipe = false;
     }
 }
 
@@ -81,9 +84,15 @@ function gameLoop() {
   // draw bird
   drawBird();
 
+  // draw score
+  drawScore();
+
+  // update score
+  updateScore();
+
   // Check for collisions
   if (collisionDetection()) {
-      alert("Game Over!");
+      endGame();
       return; // Stop the game loop
   }
 
@@ -133,7 +142,52 @@ function collisionDetection(pipe, bird) {
       );
 }
 
+/// Score system
+let score = 0;
+// Track if the bird has passed the current pipe
+let passedPipe = false;
 
+function drawScore() {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "black";
+  ctx.fillText(`Score: ${score}`, 8, 20);
+}
+
+function updateScore() {
+  // check if bird passed the pipe
+  if (birdX > x + pipeWidth && passedPipe === false) {
+    // add score
+    score++;
+    // stop multiple scoring
+    passedPipe = true;
+  }
+}
+
+// High score tracking
+let highScore = localStorage.getItem('highScore') || 0;
+
+function updateHighScore() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('highScore', highScore);
+  }
+}
+
+// Call this function when the game ends
+function endGame() {
+  updateHighScore();
+  alert(
+  `Game Over!
+
+  Your score: ${score}
+  High Score: ${highScore}`
+  );
+}
+
+// Initialize high score in local storage if not set
+if (!localStorage.getItem('highScore')) {
+  localStorage.setItem('highScore', 0);
+}
 
 // start button
 const runButton = document.getElementById("runButton");
