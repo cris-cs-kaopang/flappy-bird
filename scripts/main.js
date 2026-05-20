@@ -20,43 +20,54 @@ let velocity = 0;
 // gravity strength
 let gravity = 0.5;
 
+let pipeImg = new Image();
+pipeImg.src = "./images/unnamed.png";
 
-// Draws pipes
-function drawPipe() {
-    // Top pipe
-    ctx.beginPath();
-    ctx.rect(x, 0, pipeWidth, topPipeHeight);
-    ctx.fillStyle = "green";
-    ctx.fill();
-    ctx.closePath();
+ function drawPipe() {
 
-    // Bottom pipe
-    ctx.beginPath();
-    ctx.rect(x, canvas.height - bottomPipeHeight, pipeWidth, bottomPipeHeight);
-    ctx.fillStyle = "green";
-    ctx.fill();
-    ctx.closePath();
+    // TOP PIPE
+    ctx.save();
+
+    ctx.translate(x + pipeWidth / 2, topPipeHeight / 2);
+    ctx.rotate(Math.PI);
+
+    ctx.drawImage(
+        pipeImg,
+        -pipeWidth / 2,
+        -topPipeHeight / 2,
+        pipeWidth,
+        topPipeHeight
+    );
+
+    ctx.restore();
+
+    // BOTTOM PIPE
+    ctx.drawImage(
+        pipeImg,
+        x,
+        canvas.height - bottomPipeHeight,
+        pipeWidth,
+        bottomPipeHeight
+    );
 
     x -= pipeSpeed;
-    if (x + pipeWidth < 0) {
-        // Reset pipe to the right
-        x = canvas.width;
-        topPipeHeight = Math.random() * 200 + 100; // Randomize top pipe
-        bottomPipeHeight = canvas.height - gap - topPipeHeight; // Adjust bottom
 
-          // Reset score tracking for new pipe
-          passedPipe = false;
+    if (x + pipeWidth < 0) {
+
+        x = canvas.width;
+        topPipeHeight = Math.random() * 200 + 150;
+        bottomPipeHeight = canvas.height - gap - topPipeHeight;
+
+        passedPipe = false;
     }
 }
 
-// draw bird
+let birdImg = new Image();
+birdImg.src = "./images/1.png";
+
 function drawBird() {
 
-  // bird color
-  ctx.fillStyle = "yellow";
-
-  // draw bird rectangle
-  ctx.fillRect(birdX, birdY, 40, 40);
+    ctx.drawImage(birdImg, birdX, birdY, 80, 80);
 
 }
 // movement
@@ -106,16 +117,17 @@ function gameLoop() {
 let lift = -8;
 
 
-// listen for keyboard input
+let jumpSound = new Audio("sounds/sound-a.mp3");
+
 document.addEventListener("keydown", function(event) {
 
-  // check if spacebar is pressed
-  if (event.code === "Space") {
+    if (event.code === "Space") {
 
-    // make bird jump upward
-    velocity = lift;
+        jumpSound.play();
 
-  }
+        velocity = lift;
+
+    }
 
 });
 
@@ -149,7 +161,7 @@ let passedPipe = false;
 
 function drawScore() {
   ctx.font = "16px Arial";
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "white";
   ctx.fillText(`Score: ${score}`, 8, 20);
 }
 

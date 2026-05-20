@@ -10,8 +10,7 @@ main {
 }
 
 canvas {
-  border: 1px solid black;
-  background: #eeeeee;
+  background-image: url("file:///C:/work/repos/final-project-data-destroyers/images/background.png");
   display: block;
   margin: 0 auto;
 }
