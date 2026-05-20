@@ -10,9 +10,10 @@ main {
 }
 
 canvas {
-  background-image: url("file:///C:/work/repos/final-project-data-destroyers/images/background.png");
+  background-image: url("../images/background.png");
   display: block;
   margin: 0 auto;
+  border: 2px solid black;
 }
 
 * {
@@ -24,7 +25,4 @@ button {
   display: block;
 }
 
-canvas {
-  border: 2px solid black;
-}
-//so i can see the canvas better, not part of the game design
+/* so i can see the canvas better, not part of the game design */
